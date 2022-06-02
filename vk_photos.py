@@ -4,9 +4,9 @@ from tqdm import tqdm
 import requests
 import json
 import time
-with open("/home/ismoilov_m_f/Python/tokens/vktoken.txt") as f:
+with open("vktoken.txt") as f:
     vk_token = f.readline().strip()
-with open("/home/ismoilov_m_f/Python/tokens/yadisk.txt") as f:
+with open("yadisk.txt") as f:
     yadisk_token = f.readline().strip()
 
 
@@ -23,7 +23,7 @@ class Vk_class():
             "access_token": vk_token,
             "v": "5.131"
         }
-        self.file_name = "VK_requiremеnts.txt"
+        self.file_name = "VK_requiremеnts.json"
         self.name_folder = "VK " + time.strftime('%Y-%m-%d_%H-%M-%S')
         self._host_yan = "https://cloud-api.yandex.net"
         self.__header_yan = {"User-Agent": UserAgent().random,
@@ -31,6 +31,11 @@ class Vk_class():
                              "Authorization": f"OAuth {yadisk_token}"
                              }
         self.name_folder = self.__create_folder(self.name_folder)
+        with open("requirements.txt", "w") as req:
+            req.write("fake_useragent\n")
+            req.write("requests\n")
+            req.write("tqdm\n")
+            req.write("json")
         with open(self.file_name, "w") as f:
             f.write("[{\n}]")
 
@@ -98,7 +103,6 @@ class Vk_class():
         if not resp_lst:
             print(
                 "Передали неверные данные(API, ID, Album_id) или нет доступа к фотографиям")
-            return
         else:
             count_photo = resp_lst["count"]
         offset = 999
@@ -115,10 +119,3 @@ class Vk_class():
         # print(count_photo)
         print(
             f"Загружено {len(self.lst)} фотографии из {count_photo}, на папку: {self.name_folder}")
-
-
-class OK_class():
-    """docstring fo OK_class."""
-
-    def __init__(self):
-        self.host_ok = "https://api.ok.ru/"
